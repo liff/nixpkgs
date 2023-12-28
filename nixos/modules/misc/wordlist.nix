@@ -57,7 +57,7 @@ in
   };
 
   config = lib.mkIf config.environment.wordlist.enable {
-    environment.variables = lib.mapAttrs (
+    environment.sessionVariables = lib.mapAttrs (
       name: value: "${concatAndSort "wordlist-${name}" value}"
     ) config.environment.wordlist.lists;
   };
