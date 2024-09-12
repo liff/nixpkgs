@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  jetbrains,
   jdk,
   cacert,
   jre-generate-cacerts,
@@ -28,6 +29,8 @@
   wayland,
   udev,
   fontconfig,
+  testers,
+  nixosTests,
   debugBuild ? false,
   withJcef ? true,
 }:
@@ -239,5 +242,16 @@ jdk.overrideAttrs (oldAttrs: {
     ];
 
     platforms = lib.platforms.linux;
+  };
+
+  passthru = oldAttrs.passthru // {
+    tests = {
+      version = testers.testVersion {
+        package = jetbrains.jdk;
+        command = "java --version";
+        version = javaVersion;
+      };
+      jcef = nixosTests.jetbrains-jdk;
+    };
   };
 })
