@@ -882,6 +882,7 @@ in
   jellyfin = runTest ./jellyfin.nix;
   jenkins = runTest ./jenkins.nix;
   jenkins-cli = runTest ./jenkins-cli.nix;
+  jetbrains-jdk = runTest ./jetbrains-jdk;
   jibri = runTest ./jibri.nix;
   jirafeau = runTest ./jirafeau.nix;
   jitsi-meet = runTest ./jitsi-meet.nix;
