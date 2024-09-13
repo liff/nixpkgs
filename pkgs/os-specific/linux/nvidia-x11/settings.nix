@@ -117,7 +117,13 @@ stdenv.mkDerivation {
           # fix wayland support for compositors that use wl_output version 4
           url = "https://github.com/NVIDIA/nvidia-settings/pull/99/commits/2e0575197e2b3247deafd2a48f45afc038939a06.patch";
           hash = "sha256-wKuO5CUTUuwYvsP46Pz+6fI0yxLNpZv8qlbL0TFkEFE=";
-        });
+        })
+    ++ [
+      (fetchpatch {
+        url = "https://patch-diff.githubusercontent.com/raw/NVIDIA/nvidia-settings/pull/107.patch";
+        hash = "sha256-AMqTkZ20BmuygqNSE6KoXiwNsVy1HfO5g5RK4j30kiw=";
+      })
+    ];
 
   postPatch = lib.optionalString nvidia_x11.useProfiles ''
     sed -i 's,/usr/share/nvidia/,${nvidia_x11.bin}/share/nvidia/,g' src/gtk+-2.x/ctkappprofile.c
