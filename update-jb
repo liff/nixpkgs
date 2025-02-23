@@ -1,0 +1,41 @@
+#!/usr/bin/env nu
+
+const PLUGINS = {
+  9333: makefile-language,
+  23933: db-external-command-auth,
+  # 14382: deno,
+  # 13115: github,
+  # 24367: exposed,
+  # 21704: kafka,
+  # 21713: big-data-tools-core,
+  14076: auto-dark-mode,
+  20417: graph-database,
+  15728: avro-schema-support,
+  14080: kotest,
+  # 22282: jetbrains-ai-assistant,
+  # 26104: jetbrains-junie,
+  # 20221: spring,
+  # 14823: full-line-code-completion,
+  # 11594: properties,
+  # 10485: kubernetes,
+  # 18337: package-checker,
+  # 13121: http-client,
+  # 13126: yaml,
+  # 7294: editorconfig,
+  # 22069: javascript-and-typescript,
+  # 17562: javascript-debugger,
+  # 21738: apache-velocity,
+  # 14394: openapi-specifications,
+  # 8079: google-cloud-code,
+  # 24198: gemini-code-assist,
+}
+
+try { ^pkgs/applications/editors/jetbrains/bin/update_bin.py }
+try { ^pkgs/applications/editors/jetbrains/plugins/update_plugins.py }
+
+def main [] {
+  $PLUGINS | transpose id slug | each { |plugin|
+    ^pkgs/applications/editors/jetbrains/plugins/update_plugins.py add $plugin.id
+    ^git commit --amend $"--message=jetbrains.plugins: add ($plugin.slug)"
+  }
+}
