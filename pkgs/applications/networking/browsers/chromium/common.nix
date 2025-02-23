@@ -128,6 +128,12 @@ let
       inherit hash revert excludes;
     };
 
+  nssXdgPatch = fetchpatch {
+    name = "xdg-basedir.patch";
+    url = "https://aur.archlinux.org/cgit/aur.git/plain/xdg-basedir.patch?h=ungoogled-chromium-xdg";
+    hash = "sha256-AxLU4SJkuqEwWPjmJby9QOv9aKXn8pYcsYeYoeT1H8U=";
+  };
+
   mkGnFlags =
     let
       # Serialize Nix types into GN types according to this document:
@@ -598,7 +604,8 @@ let
         revert = true;
         hash = "sha256-Qa4GvamZ//0WTAZmDXOQJVz9dnYNzBkD8lYcWOHdVIY=";
       })
-    ];
+    ]
+    ++ [ nssXdgPatch ];
 
     postPatch =
       # TODO: reuse mkGnFlags for this
