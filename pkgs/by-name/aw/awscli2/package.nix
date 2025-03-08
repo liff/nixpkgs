@@ -64,6 +64,10 @@ py.pkgs.buildPythonApplication rec {
     hash = "sha256-dAtcYDdrZASrwBjQfnZ4DUR4F5WhY59/UX92QcILavs=";
   };
 
+  patches = [
+    ./xdg-basedir.patch
+  ];
+
   postPatch = ''
     substituteInPlace pyproject.toml \
       --replace-fail 'flit_core>=3.7.1,<3.9.1' 'flit_core>=3.7.1' \
