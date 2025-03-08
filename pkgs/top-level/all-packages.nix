@@ -1514,7 +1514,9 @@ with pkgs;
   texFunctions = callPackage ../tools/typesetting/tex/nix pkgs;
 
   # TeX Live; see https://nixos.org/nixpkgs/manual/#sec-language-texlive
-  texlive = callPackage ../tools/typesetting/tex/texlive { };
+  texlive = callPackage ../tools/typesetting/tex/texlive {
+    jdk_headless = jdk_headless.override { xdg = false; };
+  };
   inherit (texlive.schemes)
     texliveBasic
     texliveBookPub
