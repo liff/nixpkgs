@@ -33,6 +33,7 @@
   nixosTests,
   debugBuild ? false,
   withJcef ? true,
+  xdg ? true,
 }:
 
 {
@@ -83,7 +84,9 @@ jdk.overrideAttrs (oldAttrs: {
     SOURCE_DATE_EPOCH = sourceDateEpoch;
   };
 
-  patches = [ ];
+  patches = lib.optionals xdg [
+    ./xdg-basedir.patch
+  ];
 
   dontConfigure = true;
 
