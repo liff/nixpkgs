@@ -54,6 +54,7 @@
   # TODO(@sternenseemann): gtk3 fails to evaluate in pkgsCross.ghcjs.buildPackages
   # which should be fixable, this is a no-rebuild workaround for GHC.
   headless ? lib.versionAtLeast featureVersion "21" && stdenv.targetPlatform.isGhcjs,
+  xdg ? true,
 
   enableJavaFX ? false,
   openjfx17,
@@ -236,6 +237,9 @@ stdenv.mkDerivation (finalAttrs: {
   ]
   ++ lib.optionals (featureVersion == "11") [
     ./11/patches/fix-oopdesc-ptr-alignment-ub.patch
+  ]
+  ++ lib.optionals (xdg && featureVersion == "17") [
+    ./17/patches/xdg-basedir.patch
   ];
 
   strictDeps = true;
