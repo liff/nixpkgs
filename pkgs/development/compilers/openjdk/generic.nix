@@ -240,6 +240,9 @@ stdenv.mkDerivation (finalAttrs: {
   ]
   ++ lib.optionals (featureVersion == "17" || featureVersion == "19") [
     ./17/patches/xdg-basedir.patch
+  ]
+  ++ lib.optionals (featureVersion == "20") [
+    ./20/patches/xdg-basedir.patch
   ];
 
   strictDeps = true;
