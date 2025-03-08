@@ -67,6 +67,8 @@
   jdk-bootstrap ?
     javaPackages.compiler.temurin-bin."jdk-${featureVersion}".__spliced.buildBuild
       or javaPackages.compiler.temurin-bin."jdk-${featureVersion}",
+
+  xdg ? true,
 }:
 
 assert lib.assertMsg (enableGtk -> lib.versionAtLeast featureVersion "11")
@@ -182,6 +184,9 @@ stdenv.mkDerivation (finalAttrs: {
       (
         if atLeast17 then ./17/patches/swing-use-gtk-jdk13.patch else ./11/patches/swing-use-gtk-jdk10.patch
       )
+    ]
+    ++ lib.optionals (xdg && featureVersion == "17") [
+      ./17/patches/xdg-basedir.patch
     ];
 
   strictDeps = true;
