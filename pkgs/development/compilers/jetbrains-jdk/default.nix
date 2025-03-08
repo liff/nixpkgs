@@ -70,7 +70,9 @@ jdk.overrideAttrs (oldAttrs: rec {
     SOURCE_DATE_EPOCH = 1765114563;
   };
 
-  patches = [ ];
+  patches = [
+    ./xdg-basedir.patch
+  ];
 
   dontConfigure = true;
 
