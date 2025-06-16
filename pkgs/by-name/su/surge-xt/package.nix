@@ -19,6 +19,8 @@
   buildLV2 ? true,
   buildCLAP ? true,
   buildStandalone ? true,
+  copyDesktopItems,
+  makeDesktopItem,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -53,6 +55,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     cmake
     pkg-config
+    copyDesktopItems
   ];
 
   buildInputs = [
@@ -91,6 +94,43 @@ stdenv.mkDerivation (finalAttrs: {
       inherit (finalAttrs.finalPackage.passthru) rev-prefix;
     };
   };
+
+  postInstall = ''
+    mkdir --parents $out/share/icons/hicolor
+    cp --recursive $src/scripts/installer_linux/assets/icons/scalable $out/share/icons/hicolor/
+    cp --recursive $src/scripts/installer_linux/assets/icons/hicolor/* $out/share/icons/hicolor/
+  '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = "Surge-XT";
+      desktopName = "Surge XT";
+      comment = "Free Open Source Hybrid Synthesizer";
+      icon = "surge-xt";
+      startupNotify = true;
+      categories = [
+        "AudioVideo"
+        "Audio"
+        "Midi"
+        "Music"
+      ];
+      dbusActivatable = false;
+      exec = ''"Surge XT"'';
+    })
+    (makeDesktopItem {
+      name = "Surge-XT-Effects";
+      desktopName = "Surge XT Effects";
+      icon = "surge-xt-fx";
+      startupNotify = true;
+      categories = [
+        "AudioVideo"
+        "Audio"
+        "Music"
+      ];
+      dbusActivatable = false;
+      exec = ''"Surge XT Effects"'';
+    })
+  ];
 
   meta = {
     description = "LV2, VST3 & CLAP synthesizer plug-in (previously released as Vember Audio Surge)";
