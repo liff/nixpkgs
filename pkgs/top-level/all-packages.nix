@@ -8988,8 +8988,6 @@ with pkgs;
     ocamlPackages = ocaml-ng.ocamlPackages_4_14;
   };
 
-  pianoteq = callPackage ../applications/audio/pianoteq { };
-
   pidginPackages = recurseIntoAttrs (
     callPackage ../applications/networking/instant-messengers/pidgin/pidgin-plugins { }
   );
