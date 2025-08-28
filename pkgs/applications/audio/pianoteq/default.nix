@@ -244,7 +244,7 @@ let
 
   version6 = "6.7.3";
   version7 = "7.5.4";
-  version8 = "8.4.0";
+  version8 = "8.4.3";
 
   mkStandard =
     version: hash:
@@ -297,7 +297,7 @@ let
 in
 {
   standard_8 = mkStandard version8 "sha256-ZDGB/SOOz+sWz7P+sNzyaipEH452n8zq5LleO3ztSXc=";
-  stage_8 = mkStage version8 "";
+  stage_8 = mkStage version8 "sha256-fNVHZslILLVDu5z39Mm7WxHjL8A4v0Qa3Mye67Fx3Mg=";
   standard-trial_8 = mkStandardTrial version8 "sha256-K3LbAWxciXt9hVAyRayxSoE/IYJ38Fd03+j0s7ZsMuw=";
   stage-trial_8 = mkStageTrial version8 "sha256-k0p7SnkEq90bqIlT7PTYAQuhKEDVi+srHwYrpMUtIbM=";
 
