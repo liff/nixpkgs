@@ -22,6 +22,16 @@
       url = "https://download.oracle.com/graalvm/25/archive/graalvm-jdk-25.0.1_macos-aarch64_bin.tar.gz";
     };
   };
+  "21" = {
+    "aarch64-linux" = {
+      hash = "sha256-Xp1Il0tCaV3LQ4yHIF+Kig1cWyyX11LTaaswG0xc9+0=";
+      url = "https://download.oracle.com/graalvm/21/archive/graalvm-jdk-21.0.9_linux-aarch64_bin.tar.gz";
+    };
+    "x86_64-linux" = {
+      hash = "sha256-cLTSX7sxHZiLhsm2HleAKouWfbYW7mFyMMMYEnbkH3E=";
+      url = "https://download.oracle.com/graalvm/21/archive/graalvm-jdk-21.0.9_linux-x64_bin.tar.gz";
+    };
+  };
   "17" = {
     "aarch64-linux" = {
       hash = "sha256-vZkdSGuS3rdDN7iB4PE6dkycHpD8NYgZCA9zIfpRdeg=";
