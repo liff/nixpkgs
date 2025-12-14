@@ -13,12 +13,12 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "pianoteq";
-  version = "9.0.3";
+  version = "9.1.0";
 
   src = requireFile {
-    name = "pianoteq_setup_v903.tar.xz";
+    name = "pianoteq_setup_v910.tar.xz";
     url = "https://www.modartt.com/user_area?tab=downloads";
-    hash = "sha256-+aUu/GDTSVNdkRdPsq+VPvw2WL4yJizaP/ESMinE/Z4=";
+    hash = "sha256-lEOVdEFtbV9+lEQu9gKEHAwtTTnU22Tj5Vkx3aPijrc=";
   };
 
   nativeBuildInputs = [
