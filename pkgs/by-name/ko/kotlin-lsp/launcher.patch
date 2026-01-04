@@ -1,0 +1,37 @@
+--- a/kotlin-lsp.sh	1979-12-31 00:00:00.000000000 +0200
++++ b/kotlin-lsp.sh	2026-03-12 16:38:09.255987267 +0200
+@@ -1,32 +1,7 @@
+ #!/usr/bin/env bash
+ 
+-SOURCE=${BASH_SOURCE[0]}
+-while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+-    DIR=$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)
+-    SOURCE=$(readlink "$SOURCE")
+-    # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+-    [[ $SOURCE != /* ]] && SOURCE=$DIR/$SOURCE
+-done
+-DIR=$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)
+-
+-if [ ! -d "$DIR/lib" ]; then
+-    echo >&2 -e "The 'lib' directory does not exist."
+-    exit 1
+-fi
+-
+-if [[ "$OSTYPE" == "darwin"* ]]; then
+-    LOCAL_JRE_PATH="$DIR/jre/Contents/Home"
+-else
+-    LOCAL_JRE_PATH="$DIR/jre"
+-fi
+-
+-if [ -d "$LOCAL_JRE_PATH" ] && [ -f "$LOCAL_JRE_PATH/bin/java" ]; then
+-    chmod +x "$LOCAL_JRE_PATH/bin/java"
+-    JAVA_BIN="$LOCAL_JRE_PATH/bin/java"
+-else
+-    echo >&2 -e "'java' was not found at $LOCAL_JRE_PATH, installation corrupted"
+-    exit 1
+-fi
++DIR=@libDir@
++JAVA_BIN=@javaExe@
+ 
+ exec "$JAVA_BIN" \
+     --add-opens java.base/java.io=ALL-UNNAMED \
