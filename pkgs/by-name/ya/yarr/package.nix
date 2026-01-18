@@ -10,16 +10,16 @@
 
 buildGoModule (finalAttrs: {
   pname = "yarr";
-  version = "2.6";
+  version = "2.6+liff";
 
   src = fetchFromGitHub {
-    owner = "nkanaev";
+    owner = "liff";
     repo = "yarr";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-D/049qH6CFNL7MY5e54guA9i84pbAwGf2UPHnVQWCkU=";
+    rev = "2f924db5868918d089357eda3dc3252ebb912fbe";
+    hash = "sha256-ZD+HDgv10q7jqiaR+9zTjD5yYqyn1YyqmrwL4ukRGHA=";
   };
 
-  vendorHash = null;
+  vendorHash = "sha256-pCnKXEtwT/OIDQfcrB7CQJQ91mQ03PtIMTfqmvqYTm0=";
 
   ldflags = [
     "-s"
