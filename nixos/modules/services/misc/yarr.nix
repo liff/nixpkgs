@@ -106,6 +106,8 @@ in
 
           LoadCredential = mkIf (cfg.authFilePath != null) "authfile:${cfg.authFilePath}";
 
+          BindPaths = [ "/run/systemd/journal/socket" ];
+
           DynamicUser = true;
           DevicePolicy = "closed";
           LockPersonality = "yes";
@@ -125,14 +127,11 @@ in
           ProtectProc = "invisible";
           ProtectSystem = "strict";
           RemoveIPC = true;
-          RestrictAddressFamilies =
-            if cfg.bindToUnixSocket then
-              [ "AF_UNIX" ]
-            else
-              [
-                "AF_INET"
-                "AF_INET6"
-              ];
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+            "AF_INET6"
+          ];
           RestrictNamespaces = true;
           RestrictRealtime = true;
           RestrictSUIDSGID = true;
@@ -140,6 +139,7 @@ in
 
           ExecStart = ''
             ${lib.getExe cfg.package} \
+              -journal \
               -db storage.db \
               -addr "${listenAddress}" \
               ${optionalString (cfg.baseUrl != null) "-base ${cfg.baseUrl}"} \
