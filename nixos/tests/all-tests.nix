@@ -1996,6 +1996,7 @@ in
   xterm = runTest ./xterm.nix;
   xxh = runTest ./xxh.nix;
   yarr = runTest ./yarr.nix;
+  yarr-with-unix-socket = runTest ./yarr-with-unix-socket.nix;
   yb = pkgs.callPackage ./yb.nix { inherit (pkgs.yb.passthru) ybPivHarnessTests testFixtures; };
   ydotool = import ./ydotool.nix {
     inherit (pkgs) lib;
