@@ -2,7 +2,6 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  fetchpatch,
   cmake,
   pkg-config,
   alsa-lib,
@@ -23,14 +22,14 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "gearmulator";
-  version = "2.1.0";
+  version = "2.1.1";
 
   src = fetchFromGitHub {
     owner = "dsp56300";
     repo = "gearmulator";
     tag = finalAttrs.version;
     fetchSubmodules = true;
-    hash = "sha256-EXJJmdphGho9RNeMGvmb3gM+8kxjXrWm/oOBxRDPFbU=";
+    hash = "sha256-Q9cjYdf4sQ3ciF1yh3JpfEaGWVZjQPdBzbZjsOcSP1k=";
   };
 
   nativeBuildInputs = [
@@ -53,13 +52,6 @@ stdenv.mkDerivation (finalAttrs: {
     fontconfig
     expat
     libglvnd
-  ];
-
-  patches = [
-    (fetchpatch {
-      url = "https://patch-diff.githubusercontent.com/raw/dsp56300/gearmulator/pull/251.patch";
-      hash = "sha256-k+WSrmAPvF/nA1FxR1OKqqdOruC5SU8fbERAiVkoBbg=";
-    })
   ];
 
   installPhase = ''
