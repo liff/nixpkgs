@@ -9077,6 +9077,8 @@ self: super: with self; {
 
   kagglesdk = callPackage ../development/python-modules/kagglesdk { };
 
+  kagiapi = callPackage ../development/python-modules/kagiapi { };
+
   kahip = toPythonModule (
     pkgs.kahip.override {
       pythonSupport = true;
