@@ -13,7 +13,7 @@ let
     buildType = "idea";
     ideaHash = "sha256-0WuTG1wQThWQv4Pzfw+48LDm4dvlfii/B+bwWdeGNTI=";
     androidHash = "sha256-USadXfyPu5boaCB+5rP+40Kd53LTRrrkRwgcbaxDgXg=";
-    jpsHash = "sha256-iHpt926BDLNUwHRXvkqVgwlWiLo1qSZEaGeJcS0Fjmk=";
+    jpsHash = "sha256-+j1nbSxhwgV5i7hQ9yeTeeuaNtoGBzikH0wZG3ECCe0=";
     restarterHash = "sha256-acCmC58URd6p9uKZrm0qWgdZkqu9yqCs23v8qgxV2Ag=";
     mvnDeps = ../source/idea_maven_artefacts.json;
     repositories = [

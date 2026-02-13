@@ -12,7 +12,7 @@ let
     buildType = "pycharm";
     ideaHash = "sha256-13da6xCaZfS7zwesqGJpwsKfUK61Vi7gtMgPKtve43U=";
     androidHash = "sha256-FA/6ry1M7+RISJL+2SR9QkDvAGJAkXhFMh9YoOEU5nk=";
-    jpsHash = "sha256-iHpt926BDLNUwHRXvkqVgwlWiLo1qSZEaGeJcS0Fjmk=";
+    jpsHash = "sha256-+j1nbSxhwgV5i7hQ9yeTeeuaNtoGBzikH0wZG3ECCe0=";
     restarterHash = "sha256-acCmC58URd6p9uKZrm0qWgdZkqu9yqCs23v8qgxV2Ag=";
     mvnDeps = ../source/pycharm_maven_artefacts.json;
     repositories = [
