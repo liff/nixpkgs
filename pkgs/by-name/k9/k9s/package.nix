@@ -10,6 +10,9 @@
   k9s,
   kubectl,
   writableTmpDirAsHomeHook,
+  imagemagick,
+  copyDesktopItems,
+  makeDesktopItem,
 }:
 
 buildGoModule (finalAttrs: {
@@ -53,6 +56,8 @@ buildGoModule (finalAttrs: {
   nativeBuildInputs = [
     installShellFiles
     makeWrapper
+    imagemagick
+    copyDesktopItems
   ];
   postInstall = ''
     # k9s requires a writeable log directory
@@ -74,9 +79,30 @@ buildGoModule (finalAttrs: {
 
     mkdir -p $out/share/k9s/skins
     cp -r $src/skins/* $out/share/k9s/skins/
+    mkdir --parents $out/share/icons/hicolor/512x512/apps/
+    magick assets/k9s.png -resize 512x512 -gravity center -background none -extent 512x512 $out/share/icons/hicolor/512x512/apps/k9s.png
   '';
 
   nativeCheckInputs = [ writableTmpDirAsHomeHook ];
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = finalAttrs.pname;
+      desktopName = "K9s";
+      comment = finalAttrs.meta.description;
+      exec = finalAttrs.meta.mainProgram;
+      icon = "k9s";
+      terminal = true;
+      categories = [
+        "System"
+        "ConsoleOnly"
+      ];
+      keywords = [
+        "kubernetes"
+        "k8s"
+      ];
+    })
+  ];
 
   meta = {
     description = "Kubernetes CLI To Manage Your Clusters In Style";
