@@ -10,7 +10,18 @@
   writableTmpDirAsHomeHook,
   versionCheckHook,
   nix-update-script,
+  runCommand,
+  imagemagick,
+  noto-fonts-color-emoji,
+  copyDesktopItems,
+  makeDesktopItem,
 }:
+
+let icon = runCommand "gurk-icon.png" { nativeBuildInputs = [ imagemagick noto-fonts-color-emoji ]; } ''
+  magick -background none -size 512x512 -pointsize 320 -gravity center pango:'🥒' $out
+'';
+
+in
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "gurk-rs";
@@ -34,6 +45,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   nativeBuildInputs = [
     protobuf
     pkg-config
+    copyDesktopItems
   ];
 
   buildInputs = [ openssl ];
@@ -52,6 +64,24 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   nativeInstallCheckInputs = [ versionCheckHook ];
   doInstallCheck = true;
+
+  postInstall = ''
+    install -D ${icon} $out/share/icons/hicolor/512x512/apps/gurk.png
+  '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = "gurk";
+      desktopName = "gurk";
+      genericName = "Messenger";
+      comment = "Signal Messenger client for terminal";
+      icon = "gurk";
+      exec = finalAttrs.meta.mainProgram;
+      terminal = true;
+      categories = [ "Network" "InstantMessaging" "Chat" ];
+      startupNotify = false;
+    })
+  ];
 
   passthru.updateScript = nix-update-script { };
 
