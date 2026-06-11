@@ -7,7 +7,8 @@
   alsa-lib,
   openssl,
   pipewire,
-
+  copyDesktopItems,
+  makeDesktopItem,
   withPipewireVisualizer ? true,
   withAiDj ? false,
   withMCPServer ? false,
@@ -25,7 +26,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoHash = "sha256-X2xyEN43jwT6xr3iACLdvuOaH0SQdtxeJBBP1rEhy80=";
 
-  nativeBuildInputs = [ pkg-config ] ++ lib.optional withPipewireVisualizer rustPlatform.bindgenHook;
+  nativeBuildInputs = [
+    pkg-config
+    copyDesktopItems
+  ]
+  ++ lib.optional withPipewireVisualizer rustPlatform.bindgenHook;
 
   buildInputs = [
     alsa-lib
@@ -49,6 +54,24 @@ rustPlatform.buildRustPackage (finalAttrs: {
   # next version.
   # See: https://github.com/LargeModGames/spotatui/issues/478
   doCheck = !withAiDj;
+  desktopItems = [
+    (makeDesktopItem {
+      name = finalAttrs.pname;
+      desktopName = "spotatui";
+      comment = finalAttrs.meta.description;
+      exec = finalAttrs.meta.mainProgram;
+      terminal = true;
+      categories = [
+        "AudioVideo"
+        "Audio"
+        "Player"
+        "ConsoleOnly"
+      ];
+      keywords = [
+        "spotify"
+      ];
+    })
+  ];
 
   passthru.updateScript = nix-update-script { };
 
