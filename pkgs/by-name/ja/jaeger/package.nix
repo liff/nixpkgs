@@ -14,24 +14,24 @@ buildGoModule (finalAttrs: {
   __structuredAttrs = true;
 
   pname = "jaeger";
-  version = "2.17.0";
+  version = "2.19.0";
 
   # jaeger-ui lives under jaeger-ui/ as a git submodule.
   src = fetchFromGitHub {
     owner = "jaegertracing";
     repo = "jaeger";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-0bP9MiJZ+mQs5LYKeIT/Mc+UEEMXy3yWMU2GXIgDOLU=";
+    hash = "sha256-420qSjgrF4rH2djknyjnPj0eqULW57RaCZFtf+802KI=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-G7+QgAQslUJGy5qCSGlp50AaP3BF8z6iEx/FgG9eWBE=";
+  vendorHash = "sha256-g65r1xT70H0YPgmgIVxVEc19nAFBQQZTugRNEXLaqMM=";
 
   # Lifted to the top level so nix-update can update the hash via passthru.
   # v2 fetcher required for lockfileVersion 3 + npm 11.
   npmDeps = fetchNpmDeps {
     src = "${finalAttrs.src}/jaeger-ui";
-    hash = "sha256-qDfQxm1ScVp94eOfS+/rCVX7C6MgnGtPtMczlhN44o8=";
+    hash = "sha256-YVgbUPNb+mcC8tlK3UPmlExERFa5nbtCCgN/tKSNpto=";
     fetcherVersion = 2;
   };
 
