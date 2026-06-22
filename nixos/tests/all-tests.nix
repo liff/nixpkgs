@@ -925,6 +925,7 @@ in
   isolate = runTest ./isolate.nix;
   isso = runTest ./isso.nix;
   jackett = runTest ./jackett.nix;
+  jaeger = runTest ./jaeger.nix;
   jellyfin = runTest ./jellyfin.nix;
   jellystat = runTest ./jellystat.nix;
   jenkins = runTest ./jenkins.nix;
