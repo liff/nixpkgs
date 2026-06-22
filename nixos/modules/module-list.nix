@@ -1070,6 +1070,7 @@
   ./services/monitoring/hdaps.nix
   ./services/monitoring/heapster.nix
   ./services/monitoring/incron.nix
+  ./services/monitoring/jaeger.nix
   ./services/monitoring/kapacitor.nix
   ./services/monitoring/karma.nix
   ./services/monitoring/kener.nix
