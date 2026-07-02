@@ -101,6 +101,26 @@ in
         Enables GnuPG network certificate management daemon with socket-activation for every user session.
       '';
     };
+
+    keyboxd.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Enables keybox management daemon with socket-activation for every user session.
+      '';
+    };
+
+    keyboxd.settings = mkOption {
+      type = agentSettingsFormat.type;
+      default = { };
+      example = {
+        debug-all = true;
+      };
+      description = ''
+        Configuration for /etc/gnupg/keyboxd.conf.
+        See {manpage}`keyboxd(8)` for supported options.
+      '';
+    };
   };
 
   config = mkIf cfg.agent.enable {
@@ -202,6 +222,40 @@ in
       };
       socketConfig = {
         ListenStream = "%t/gnupg/S.dirmngr";
+        SocketMode = "0600";
+        DirectoryMode = "0700";
+      };
+      wantedBy = [ "sockets.target" ];
+    };
+
+    environment.etc."gnupg/common.conf" = mkIf cfg.keyboxd.enable {
+      text = "use-keyboxd";
+    };
+
+    environment.etc."gnupg/keyboxd.conf" = mkIf cfg.keyboxd.enable {
+      source = agentSettingsFormat.generate "keyboxd.conf" cfg.keyboxd.settings;
+    };
+
+    systemd.user.services.keyboxd = mkIf cfg.keyboxd.enable {
+      unitConfig = {
+        Description = "Public key management for GnuPG";
+        Documentation = "man:keyboxd(8)";
+        Requires = [ "sockets.target" ];
+      };
+      serviceConfig = {
+        ExecStart = "${cfg.package}/bin/keyboxd --supervised";
+        ExecReload = "${cfg.package}/bin/gpgconf --reload keyboxd";
+      };
+    };
+
+    systemd.user.sockets.keyboxd = mkIf cfg.keyboxd.enable {
+      unitConfig = {
+        Description = "Public key management for GnuPG";
+        Documentation = "man:keyboxd(8)";
+      };
+      socketConfig = {
+        ListenStream = "%t/gnupg/S.keyboxd";
+        FileDescriptorName = "std";
         SocketMode = "0600";
         DirectoryMode = "0700";
       };
