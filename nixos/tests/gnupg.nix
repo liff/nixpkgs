@@ -42,6 +42,7 @@
       '';
 
       programs.gnupg.agent.enable = true;
+      programs.gnupg.keyboxd.enable = true;
       programs.gnupg.agent.enableSSHSupport = true;
     };
 
