@@ -311,6 +311,7 @@
   ./programs/pay-respects.nix
   ./programs/plotinus.nix
   ./programs/pmount.nix
+  ./programs/procs.nix
   ./programs/projecteur.nix
   ./programs/proxychains.nix
   ./programs/pulseview.nix
