@@ -1,0 +1,52 @@
+From c0aa050c3b5421b3bbaf47f55bf4ba72f034d4e0 Mon Sep 17 00:00:00 2001
+From: Olli Helenius <liff@iki.fi>
+Date: Mon, 28 Apr 2025 20:48:33 +0300
+Subject: [PATCH] Allow connecting to MQTT broker via Unix domain socket
+
+---
+ recorder.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/recorder.c b/recorder.c
+index 4481c71..173f2cf 100644
+--- a/recorder.c
++++ b/recorder.c
+@@ -1807,7 +1807,7 @@ int main(int argc, char **argv)
+ 	argv += (optind);
+ 
+ #ifdef WITH_MQTT
+-	if (ud->port) {
++	if (ud->port >= 0) {
+ 		if (ud->topics == NULL && argc < 1) {	/* no topics set via config file */
+ 			usage(progname);
+ 			return (-1);
+@@ -1888,7 +1888,7 @@ int main(int argc, char **argv)
+ #ifdef WITH_MQTT
+ 	mosquitto_lib_init();
+ 
+-	if (ud->port) {
++	if (ud->port >= 0) {
+ 		mosq = mosquitto_new(ud->clientid, CLEAN_SESSION, (void *)&udata);
+ 		if (!mosq) {
+ 			fprintf(stderr, "Error: Out of memory.\n");
+@@ -2045,7 +2045,7 @@ int main(int argc, char **argv)
+ 
+ 	while (run) {
+ #ifdef WITH_MQTT
+-		if (ud->port != 0) {
++		if (ud->port >= 0) {
+ #if WITH_HTTP
+ 			if (ud->http_port != 0)
+ #endif /* WITH_HTTP */
+@@ -2102,7 +2102,7 @@ int main(int argc, char **argv)
+ 	revgeo_free();
+ 
+ #ifdef WITH_MQTT
+-	if (ud->port) {
++	if (ud->port >= 0) {
+ 		mosquitto_disconnect(mosq);
+ 		if (ud->topics)
+ 			json_delete(ud->topics);
+-- 
+2.49.0
+
