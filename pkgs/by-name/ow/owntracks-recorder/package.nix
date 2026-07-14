@@ -29,6 +29,8 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-/nLt8R8s3k6MQhtMXOLUDluuU7eNwZGYh5/km8tXtiE=";
   };
 
+  patches = [ ./af_unix.patch ];
+
   nativeBuildInputs = [
     pkg-config
   ];
