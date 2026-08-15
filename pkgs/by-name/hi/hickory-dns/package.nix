@@ -10,16 +10,16 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "hickory-dns";
-  version = "0.26.3";
+  version = "0.27.0-alpha.1";
 
   src = fetchFromGitHub {
-    owner = "hickory-dns";
+    owner = "liff";
     repo = "hickory-dns";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-zm8qMYqdDEZjtNC9arMzCAxPpBRRRwiHsb3lsP/cHIg=";
+    rev = "59052a205676e3028517e0485fc954326b5687dc";
+    hash = "sha256-Lm9+olddfCtLVzov9+KzJs8B4OG1fe5i387zMs8NGsM=";
   };
 
-  cargoHash = "sha256-u6Uf9lhrFgWfzIXZ3DIPk2JdDTdd1qBTkqUgmSspR9c=";
+  cargoHash = "sha256-S907LYXpEU1oiCIlaxkpF78tcjPpXIaFB0HyLn6D9bQ=";
 
   buildFeatures = [
     "blocklist"
