@@ -1,8 +1,10 @@
 {
   cacert,
   fetchFromGitHub,
+  pkg-config,
   sqlite,
   openssl,
+  aws-lc,
   lib,
   nix-update-script,
   nixosTests,
@@ -11,16 +13,16 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "hickory-dns";
-  version = "0.26.4";
+  version = "0.27.0-alpha.1";
 
   src = fetchFromGitHub {
     owner = "hickory-dns";
     repo = "hickory-dns";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-h36lTanT8hBw3dDH5v5QvQrcreD9t/r6NxAxEvWlhFo=";
+    rev = "97336fac7032d8d6b24ec1880696ec3267accf62";
+    hash = "sha256-bRp/bUR2zGcBAPiw8UOpOxSmyv9nvRSs4KYR8N+7x7o=";
   };
 
-  cargoHash = "sha256-dsU3wuONqGhMG4tyb3GRO5Kinu95OqiiRJjP+tYwRfg=";
+  cargoHash = "sha256-aLnsKfCV+8HgkXh5HuqKAY5QPuET119r91NmHN/dhVY=";
 
   buildFeatures = [
     "blocklist"
@@ -33,7 +35,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "tls-ring"
   ];
 
-  buildInputs = [ sqlite ];
+  nativeBuildInputs = [
+    pkg-config
+  ];
+
+  buildInputs = [
+    sqlite
+    aws-lc
+  ];
 
   # skip tests that need network or public resolvers
   checkFlags = [
@@ -79,16 +88,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
   doInstallCheck = true;
 
   preCheck = ''
-    # bundled test certs expire after Sep 2026
-    substituteInPlace tests/test-data/test_configs/sec/gen-keys.sh \
-      --replace-fail /etc/ssl/openssl.cnf ${openssl}/etc/ssl/openssl.cnf
-    (cd tests/test-data/test_configs/sec && bash gen-keys.sh)
-
-    substituteInPlace scripts/gen_certs.sh \
-      --replace-fail "-out ca.pem -config /tmp/ca.conf" "-out ca.pem -config /tmp/ca.conf -extensions req_ext"
-    rm -f tests/test-data/{ca.key,ca.pem,cert.key,cert.csr,cert.pem,cert.p12}
-    bash scripts/gen_certs.sh
-
     # integration tests spin up the server which needs a cert bundle
     export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt";
 
