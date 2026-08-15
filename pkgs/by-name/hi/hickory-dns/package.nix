@@ -30,6 +30,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "quic-ring"
     "recursor"
     "rustls-platform-verifier"
+    "systemd"
     "tls-ring"
   ];
 
