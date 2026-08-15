@@ -11,16 +11,16 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "hickory-dns";
-  version = "0.26.3";
+  version = "0.27.0-alpha.1";
 
   src = fetchFromGitHub {
     owner = "hickory-dns";
     repo = "hickory-dns";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-zm8qMYqdDEZjtNC9arMzCAxPpBRRRwiHsb3lsP/cHIg=";
+    rev = "fb2915153425b5f64a82b05af6f78b21665a9d74";
+    hash = "sha256-L3/gOl2l94oH9AW6zWKxRT8RRSPHtKKSXuowFx8swc0=";
   };
 
-  cargoHash = "sha256-u6Uf9lhrFgWfzIXZ3DIPk2JdDTdd1qBTkqUgmSspR9c=";
+  cargoHash = "sha256-dgm+pQNSgscFE+0+MyINFpojwArAqwW4LLjemKpDHiE=";
 
   buildFeatures = [
     "blocklist"
@@ -79,16 +79,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
   doInstallCheck = true;
 
   preCheck = ''
-    # bundled test certs expire after Sep 2026
-    substituteInPlace tests/test-data/test_configs/sec/gen-keys.sh \
-      --replace-fail /etc/ssl/openssl.cnf ${openssl}/etc/ssl/openssl.cnf
-    (cd tests/test-data/test_configs/sec && bash gen-keys.sh)
-
-    substituteInPlace scripts/gen_certs.sh \
-      --replace-fail "-out ca.pem -config /tmp/ca.conf" "-out ca.pem -config /tmp/ca.conf -extensions req_ext"
-    rm -f tests/test-data/{ca.key,ca.pem,cert.key,cert.csr,cert.pem,cert.p12}
-    bash scripts/gen_certs.sh
-
     # integration tests spin up the server which needs a cert bundle
     export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt";
 
