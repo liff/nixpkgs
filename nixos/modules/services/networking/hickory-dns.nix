@@ -176,7 +176,7 @@ in
             flagsStr = builtins.concatStringsSep " " flags;
           in
           ''
-            ${lib.getExe cfg.package} --config ${cfg.configFile} ${flagsStr}
+            ${lib.getExe cfg.package} --journald --config ${cfg.configFile} ${flagsStr}
           '';
         Type = "notify";
         WatchdogSec = 30;
