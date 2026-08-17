@@ -1,52 +1,70 @@
 {
   lib,
+  stdenv,
   buildGoModule,
-  buildNpmPackage,
   fetchFromGitHub,
-  fetchNpmDeps,
+  fetchPnpmDeps,
   gzip,
   nix-update-script,
   nodejs_24,
+  pnpm_10,
+  pnpmConfigHook,
+  pnpmBuildHook,
   withUI ? true,
 }:
+
+let
+  nodejs = nodejs_24;
+  pnpm = pnpm_10;
+in
 
 buildGoModule (finalAttrs: {
   __structuredAttrs = true;
 
   pname = "jaeger";
-  version = "2.19.0";
+  version = "2.20.0";
 
   # jaeger-ui lives under jaeger-ui/ as a git submodule.
   src = fetchFromGitHub {
     owner = "jaegertracing";
     repo = "jaeger";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-420qSjgrF4rH2djknyjnPj0eqULW57RaCZFtf+802KI=";
+    hash = "sha256-aOj39Ps0UwVp05KLVpG4EQjzCIy4nlBqy78j49RKHHo=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-g65r1xT70H0YPgmgIVxVEc19nAFBQQZTugRNEXLaqMM=";
+  vendorHash = "sha256-hp2PiyA4/ZzOZB/hAAaZ7aQHVgf5L6ZoAG1Jc2yj7Lg=";
 
   # Lifted to the top level so nix-update can update the hash via passthru.
   # v2 fetcher required for lockfileVersion 3 + npm 11.
-  npmDeps = fetchNpmDeps {
+  pnpmDeps = fetchPnpmDeps {
+    inherit pnpm;
+    pname = "jaeger-ui";
     src = "${finalAttrs.src}/jaeger-ui";
-    hash = "sha256-YVgbUPNb+mcC8tlK3UPmlExERFa5nbtCCgN/tKSNpto=";
-    fetcherVersion = 2;
+    hash = "sha256-8RDHYCFsa0MfbiJaqpxXvanexFB7HVJ6v/9Occ7p5xI=";
+    fetcherVersion = 4;
   };
 
   # React web UI, built standalone and later embedded into the Go binary.
-  frontend = buildNpmPackage {
+  frontend = stdenv.mkDerivation {
     pname = "jaeger-ui";
-    inherit (finalAttrs) version npmDeps;
+    inherit (finalAttrs) version pnpmDeps;
 
     src = "${finalAttrs.src}/jaeger-ui";
-    nodejs = nodejs_24;
-    npmDepsFetcherVersion = 2;
+
+    __structuredAttrs = true;
+    strictDeps = true;
 
     # vite resolves `localhost` during build; the Darwin sandbox blocks DNS
     # unless loopback networking is explicitly allowed.
     __darwinAllowLocalNetworking = true;
+
+    nativeBuildInputs = [
+      nodejs
+      pnpm
+      pnpmConfigHook
+      pnpmBuildHook
+    ];
 
     # Normally set at build time by scripts/get-tracking-version.js (which
     # shells out to git); feed a static stub instead.
@@ -65,10 +83,13 @@ buildGoModule (finalAttrs: {
       patchShebangs packages/*/node_modules
     '';
 
-    # Keep only the built UI assets; drop the workspace node_modules, sources, etc.
+    pnpmBuildScript = "build";
+
     installPhase = ''
       runHook preInstall
+
       cp -r packages/jaeger-ui/build $out
+
       runHook postInstall
     '';
   };
