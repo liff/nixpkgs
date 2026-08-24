@@ -6,12 +6,12 @@
 
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "kagimcp";
-  version = "0.1.3";
+  version = "0.1.5";
   pyproject = true;
 
   src = fetchPypi {
     inherit (finalAttrs) pname version;
-    hash = "sha256-uI+XPt/i+vZu3GnpI2P5Hh4bdyg7AvBbLJXNQJ6Tv7g=";
+    hash = "sha256-jpBMSOEQkDrywEWFEGRQ1o+Ljq3+mhJOXhAOfrmHkZM=";
   };
 
   build-system = with python3Packages; [ hatchling ];
