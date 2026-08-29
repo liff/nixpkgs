@@ -11,13 +11,13 @@
 
 buildGoModule (finalAttrs: {
   pname = "yarr";
-  version = "2.9";
+  version = "2.9+liff";
 
   src = fetchFromGitHub {
-    owner = "nkanaev";
+    owner = "liff";
     repo = "yarr";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-NvYcl+i3JW18zjYUT1C+ksMJgUJQGP+90UhTQkZRhD4=";
+    rev = "1dc1b58a89b59348a9d74c9c7e1a7bf454a7512f";
+    hash = "sha256-C71CcD+D8HEg3YJfVua87GRaTd4PEsD0VEy9dBYnN08=";
   };
 
   assets = buildNpmPackage {
@@ -35,7 +35,7 @@ buildGoModule (finalAttrs: {
     cp ${finalAttrs.assets}/bundle.{css,js} src/assets/static
   '';
 
-  vendorHash = null;
+  vendorHash = "sha256-j1DLo2+O0hVzSx11u11+BXeCz2XGm1UPir3bughwJY4=";
 
   ldflags = [
     "-s"
@@ -71,6 +71,7 @@ buildGoModule (finalAttrs: {
     maintainers = with lib.maintainers; [
       sikmir
       christoph-heiss
+      liff
     ];
   };
 })
