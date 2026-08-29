@@ -2,6 +2,7 @@
   lib,
   stdenv,
   buildGoModule,
+  buildNpmPackage,
   fetchFromGitHub,
   versionCheckHook,
   nix-update-script,
@@ -10,16 +11,28 @@
 
 buildGoModule (finalAttrs: {
   pname = "yarr";
-  version = "2.6+liff";
+  version = "2.8+liff";
 
   src = fetchFromGitHub {
     owner = "liff";
     repo = "yarr";
-    rev = "2f924db5868918d089357eda3dc3252ebb912fbe";
-    hash = "sha256-ZD+HDgv10q7jqiaR+9zTjD5yYqyn1YyqmrwL4ukRGHA=";
+    rev = "6f1cb7b612bec98992a49464151b39e46183d373";
+    hash = "sha256-J+f+TeMHcASCG5x0DJiGvjCGjzhamIMvTHq4EW38GvI=";
   };
 
-  vendorHash = "sha256-pCnKXEtwT/OIDQfcrB7CQJQ91mQ03PtIMTfqmvqYTm0=";
+  vendorHash = "sha256-j1DLo2+O0hVzSx11u11+BXeCz2XGm1UPir3bughwJY4=";
+
+  assets = buildNpmPackage {
+    inherit (finalAttrs) pname version src;
+
+    npmDepsHash = "sha256-T0KGV5fkroPp9K5cRp5CEnDku1nNzwTW9lUxXQFAQZc=";
+
+    dontNpmInstall = true;
+    installPhase = ''
+      mkdir $out
+      cp src/assets/static/bundle* $out/
+    '';
+  };
 
   ldflags = [
     "-s"
@@ -31,10 +44,17 @@ buildGoModule (finalAttrs: {
   tags = [
     "sqlite_foreign_keys"
     "sqlite_json"
+    "sqlite_fts5"
   ];
 
   doInstallCheck = true;
   nativeInstallCheckInputs = [ versionCheckHook ];
+
+  preBuild = ''
+    cp -a ${finalAttrs.assets}/* src/assets/static/
+  '';
+
+  checkFlags = [ "-short" ];
 
   passthru = {
     updateScript = nix-update-script { };
@@ -50,6 +70,7 @@ buildGoModule (finalAttrs: {
     maintainers = with lib.maintainers; [
       sikmir
       christoph-heiss
+      liff
     ];
   };
 })
