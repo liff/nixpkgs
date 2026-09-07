@@ -8,13 +8,14 @@
   jetbrains,
 
   vmopts ? null,
+  forceWayland ? false,
 }:
 
 let
   jetbrainsBuilder =
     jdk:
     callPackage ./builder/default.nix {
-      inherit jdk vmopts;
+      inherit jdk forceWayland vmopts;
     };
 
   mkSrcIde =
