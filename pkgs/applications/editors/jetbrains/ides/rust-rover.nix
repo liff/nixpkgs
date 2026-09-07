@@ -5,6 +5,7 @@
   jetbrains,
   jetbrains-libdbm,
   fsnotifier,
+  patchSharedLibs,
   python3,
   openssl,
   libxcrypt-legacy,
@@ -31,7 +32,7 @@ let
   };
   # update-script-end: urls
 in
-jetbrains.mkJetBrainsProduct {
+(jetbrains.mkJetBrainsProduct {
   inherit jetbrains-libdbm fsnotifier;
 
   pname = "rust-rover";
@@ -52,8 +53,6 @@ jetbrains.mkJetBrainsProduct {
       jetbrains.jdk-no-jcef
     else
       null;
-
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ jetbrains.sharedLibsHook ];
 
   buildInputs =
     lib.optionals stdenv.hostPlatform.isLinux [
@@ -80,4 +79,10 @@ jetbrains.mkJetBrainsProduct {
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}
+}).overrideAttrs
+  (attrs: {
+    postFixup = ''
+      ${attrs.postFixup or ""}
+      ${patchSharedLibs}
+    '';
+  })

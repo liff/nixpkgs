@@ -5,6 +5,7 @@
   jetbrains,
   jetbrains-libdbm,
   fsnotifier,
+  patchSharedLibs,
   dotnetCorePackages,
   python3,
   openssl,
@@ -56,8 +57,6 @@ in
     else
       null;
 
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ jetbrains.sharedLibsHook ];
-
   buildInputs =
     lib.optionals stdenv.hostPlatform.isLinux [
       python3
@@ -98,4 +97,9 @@ in
           ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
         done
       '';
+
+    postFixup = ''
+      ${attrs.postFixup or ""}
+      ${patchSharedLibs}
+    '';
   })
