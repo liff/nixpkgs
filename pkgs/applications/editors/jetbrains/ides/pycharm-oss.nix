@@ -71,7 +71,6 @@ jetbrains.mkJetBrainsProduct {
     maintainers = with lib.maintainers; [
       tymscar
     ];
-    teams = [ lib.teams.jetbrains ];
     license = lib.licenses.asl20;
     sourceProvenance = [ lib.sourceTypes.fromSource ];
     knownVulnerabilities = [
