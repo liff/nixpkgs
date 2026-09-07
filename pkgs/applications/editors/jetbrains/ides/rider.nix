@@ -1,24 +1,22 @@
 {
-  # keep-sorted start
-  dotnetCorePackages,
-  expat,
+  stdenv,
+  lib,
   fetchurl,
-  fsnotifier,
   jetbrains,
   jetbrains-libdbm,
-  lib,
+  fsnotifier,
+  openssl,
+  libxcrypt,
+  lttng-ust_2_12,
+  musl,
   libice,
   libsm,
   libx11,
+  dotnetCorePackages,
   libxcb-keysyms,
-  libxcrypt,
+  expat,
   libxml2,
-  lttng-ust_2_12,
-  musl,
-  openssl,
-  stdenv,
   xz,
-  # keep-sorted end
 }:
 let
   system = stdenv.hostPlatform.system;
@@ -67,28 +65,22 @@ in
   #       Somebody with a Darwin machine should investigate this.
   buildInputs =
     lib.optionals stdenv.hostPlatform.isLinux [
-      # keep-sorted start
-      libxcb-keysyms
+      openssl
       libxcrypt
       lttng-ust_2_12
       musl
-      openssl
-      # keep-sorted end
+      libxcb-keysyms
     ]
     ++ lib.optionals (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isAarch) [
-      # keep-sorted start
       expat
       libxml2
       xz
-      # keep-sorted end
     ];
   extraLdPath = lib.optionals (stdenv.hostPlatform.isLinux) [
-    # keep-sorted start
     # Avalonia dependencies needed for dotMemory
     libice
     libsm
     libx11
-    # keep-sorted end
   ];
 
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
@@ -111,7 +103,6 @@ in
   };
 }).overrideAttrs
   (attrs: {
-    # TODO: It is not correct to bundle the .NET in nixpkgs as-is, see https://github.com/NixOS/nixpkgs/issues/489048
     postInstall =
       (attrs.postInstall or "")
       + lib.optionalString stdenv.hostPlatform.isLinux ''

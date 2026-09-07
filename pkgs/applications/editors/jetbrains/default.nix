@@ -1,10 +1,10 @@
 {
-  # keep-sorted start
-  callPackage,
-  config,
   lib,
+  config,
   stdenv,
-  # keep-sorted end
+  callPackage,
+
+  jetbrains,
 
   vmopts ? null,
 }:
