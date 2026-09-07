@@ -81,7 +81,6 @@ in
       mic92
       tymscar
     ];
-    teams = [ lib.teams.jetbrains ];
     license = lib.licenses.unfree;
     sourceProvenance =
       if stdenv.hostPlatform.isDarwin then
