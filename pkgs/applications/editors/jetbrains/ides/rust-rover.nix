@@ -1,18 +1,16 @@
 {
-  # keep-sorted start
-  expat,
+  stdenv,
+  lib,
   fetchurl,
-  fsnotifier,
   jetbrains,
   jetbrains-libdbm,
-  lib,
-  libxcrypt-legacy,
-  libxml2,
-  openssl,
+  fsnotifier,
   python3,
-  stdenv,
+  openssl,
+  libxcrypt-legacy,
+  expat,
+  libxml2,
   xz,
-  # keep-sorted end
 }:
 let
   system = stdenv.hostPlatform.system;
@@ -59,18 +57,14 @@ jetbrains.mkJetBrainsProduct {
 
   buildInputs =
     lib.optionals stdenv.hostPlatform.isLinux [
-      # keep-sorted start
-      libxcrypt-legacy
-      openssl
       python3
-      # keep-sorted end
+      openssl
+      libxcrypt-legacy
     ]
     ++ lib.optionals (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isAarch) [
-      # keep-sorted start
       expat
       libxml2
       xz
-      # keep-sorted end
     ];
 
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed

@@ -1,14 +1,12 @@
 {
-  # keep-sorted start
-  autoPatchelfHook,
-  callPackage,
-  darwin,
   fetchurl,
   fetchzip,
-  glib,
   lib,
   stdenv,
-  # keep-sorted end
+  callPackage,
+  autoPatchelfHook,
+  glib,
+  darwin,
 }:
 {
   tests = callPackage ./tests.nix { };

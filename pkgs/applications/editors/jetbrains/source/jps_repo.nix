@@ -1,11 +1,10 @@
 {
-  # keep-sorted start
+  runCommand,
   ant,
   jbr,
+
   jpsHash,
-  runCommand,
   src,
-  # keep-sorted end
 }:
 runCommand "jps-bootstrap-repository"
   {
@@ -13,10 +12,8 @@ runCommand "jps-bootstrap-repository"
     outputHashMode = "recursive";
     outputHash = jpsHash;
     nativeBuildInputs = [
-      # keep-sorted start
       ant
       jbr
-      # keep-sorted end
     ];
   }
   ''
