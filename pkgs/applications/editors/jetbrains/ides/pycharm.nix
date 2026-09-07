@@ -3,7 +3,7 @@
   lib,
   fetchurl,
   mkJetBrainsProduct,
-  jetbrains-libdbm,
+  libdbm,
   fsnotifier,
   pyCharmCommonOverrides,
   musl,
@@ -28,7 +28,7 @@ let
   # update-script-end: urls
 in
 (mkJetBrainsProduct {
-  inherit jetbrains-libdbm fsnotifier;
+  inherit libdbm fsnotifier;
 
   pname = "pycharm";
 
