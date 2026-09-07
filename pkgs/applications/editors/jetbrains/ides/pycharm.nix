@@ -5,8 +5,8 @@
   jetbrains,
   jetbrains-libdbm,
   fsnotifier,
+  pyCharmCommonOverrides,
   musl,
-  python3,
 }:
 let
   system = stdenv.hostPlatform.system;
@@ -27,7 +27,7 @@ let
   };
   # update-script-end: urls
 in
-jetbrains.mkJetBrainsProduct {
+(jetbrains.mkJetBrainsProduct {
   inherit jetbrains-libdbm fsnotifier;
 
   pname = "pycharm";
@@ -48,12 +48,6 @@ jetbrains.mkJetBrainsProduct {
       jetbrains.jdk-no-jcef
     else
       null;
-
-  nativeBuildInputs = [
-    python3
-    python3.pkgs.setuptools
-    jetbrains.cythonDebugSpeedupsHook
-  ];
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     musl
@@ -78,4 +72,5 @@ jetbrains.mkJetBrainsProduct {
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}
+}).overrideAttrs
+  pyCharmCommonOverrides
