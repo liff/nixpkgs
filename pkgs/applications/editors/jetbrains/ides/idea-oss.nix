@@ -1,12 +1,10 @@
 {
-  # keep-sorted start
   fsnotifier,
-  jetbrains,
   lib,
+  jetbrains,
   maven,
   stdenv,
   zlib,
-  # keep-sorted end
 }:
 let
   src = jetbrains.mkJetBrainsSource {

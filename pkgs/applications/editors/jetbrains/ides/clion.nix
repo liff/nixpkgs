@@ -1,21 +1,19 @@
 {
-  # keep-sorted start
-  dotnetCorePackages,
-  expat,
+  stdenv,
+  lib,
   fetchurl,
-  fsnotifier,
   jetbrains,
   jetbrains-libdbm,
-  lib,
+  fsnotifier,
+  dotnetCorePackages,
+  python3,
+  openssl,
   libxcrypt-legacy,
-  libxml2,
   lttng-ust_2_12,
   musl,
-  openssl,
-  python3,
-  stdenv,
+  expat,
+  libxml2,
   xz,
-  # keep-sorted end
 }:
 let
   system = stdenv.hostPlatform.system;

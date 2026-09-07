@@ -1,11 +1,9 @@
 # Builder for JetBrains IDEs (`mkJetBrainsProduct`)
 
 {
-  # keep-sorted start
-  callPackage,
   lib,
   stdenv,
-  # keep-sorted end
+  callPackage,
 
   vmopts ? null,
 }:
