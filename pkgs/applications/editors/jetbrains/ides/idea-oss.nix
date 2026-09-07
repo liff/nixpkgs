@@ -72,7 +72,6 @@ jetbrains.mkJetBrainsProduct {
       gytis-ivaskevicius
       tymscar
     ];
-    teams = [ lib.teams.jetbrains ];
     license = lib.licenses.asl20;
     sourceProvenance = [ lib.sourceTypes.fromSource ];
     knownVulnerabilities = [
