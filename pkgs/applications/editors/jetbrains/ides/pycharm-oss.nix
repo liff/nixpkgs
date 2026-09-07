@@ -1,12 +1,12 @@
 {
   fsnotifier,
   lib,
-  jetbrains,
-  stdenv,
+  mkJetBrainsProduct,
+  mkJetBrainsSource,
   pyCharmCommonOverrides,
 }:
 let
-  src = jetbrains.mkJetBrainsSource {
+  src = mkJetBrainsSource {
     # update-script-start: source-args
     version = "2025.3.3";
     buildNumber = "253.31033.139";
@@ -35,7 +35,7 @@ let
     # update-script-end: source-args
   };
 in
-(jetbrains.mkJetBrainsProduct {
+(mkJetBrainsProduct {
   inherit src fsnotifier;
   inherit (src)
     version
@@ -43,9 +43,6 @@ in
     ;
   # this is jetbrains-libdbm but using the sources from the IDE build.
   jetbrains-libdbm = src.libdbm;
-
-  # the jdk is bundled on Darwin.
-  jdk = if lib.meta.availableOn stdenv.hostPlatform jetbrains.jdk then jetbrains.jdk else null;
 
   pname = "pycharm-oss";
 
