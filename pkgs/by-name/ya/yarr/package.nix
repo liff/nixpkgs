@@ -11,13 +11,13 @@
 
 buildGoModule (finalAttrs: {
   pname = "yarr";
-  version = "2.8+liff";
+  version = "2.9+liff";
 
   src = fetchFromGitHub {
     owner = "liff";
     repo = "yarr";
-    rev = "6f1cb7b612bec98992a49464151b39e46183d373";
-    hash = "sha256-J+f+TeMHcASCG5x0DJiGvjCGjzhamIMvTHq4EW38GvI=";
+    rev = "1dc1b58a89b59348a9d74c9c7e1a7bf454a7512f";
+    hash = "sha256-C71CcD+D8HEg3YJfVua87GRaTd4PEsD0VEy9dBYnN08=";
   };
 
   vendorHash = "sha256-j1DLo2+O0hVzSx11u11+BXeCz2XGm1UPir3bughwJY4=";
