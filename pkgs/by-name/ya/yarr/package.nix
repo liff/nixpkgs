@@ -11,19 +11,19 @@
 
 buildGoModule (finalAttrs: {
   pname = "yarr";
-  version = "2.8+liff";
+  version = "2.9+liff";
 
   src = fetchFromGitHub {
     owner = "liff";
     repo = "yarr";
-    rev = "6f1cb7b612bec98992a49464151b39e46183d373";
-    hash = "sha256-J+f+TeMHcASCG5x0DJiGvjCGjzhamIMvTHq4EW38GvI=";
+    rev = "1dc1b58a89b59348a9d74c9c7e1a7bf454a7512f";
+    hash = "sha256-C71CcD+D8HEg3YJfVua87GRaTd4PEsD0VEy9dBYnN08=";
   };
 
   assets = buildNpmPackage {
     pname = "${finalAttrs.pname}-assets";
     inherit (finalAttrs) version src;
-    npmDepsHash = "sha256-1WUzvlllmQhtJ2k2rw+SzBu5ktwIFaATMSNZWq9EU0k=";
+    npmDepsHash = "sha256-T0KGV5fkroPp9K5cRp5CEnDku1nNzwTW9lUxXQFAQZc=";
     installPhase = ''
       runHook preInstall
       cp -r src/assets/static "$out"
