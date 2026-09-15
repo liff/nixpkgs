@@ -8,6 +8,7 @@
   openssl,
   pkg-config,
   which,
+  systemd,
   iproute2,
   gnused,
   coreutils,
@@ -56,6 +57,7 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
+    systemd
     iptables-legacy
     libuuid
     openssl
@@ -79,6 +81,8 @@ stdenv.mkDerivation rec {
     "--host-os-version=${linuxHeaders.version}"
     "--host-machine=${stdenv.hostPlatform.uname.processor}"
     "--firewall=${firewall}"
+    "--disable-fork"
+    "--systemd"
     # allow using various config options
     "--ipv6"
     "--igd2"
