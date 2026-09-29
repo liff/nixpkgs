@@ -17,16 +17,16 @@ let
 
   hash =
     {
-      "x86_64-linux" = "sha256-MQZ2Q70IYbVpKVg8D7yjK/jpboMuNjKGslxFOw+6b9I=";
-      "aarch64-linux" = "sha256-cNlzWB9N1TZ2H7Crdro/t8TAOO3/S3qhEKOquzi3p/M=";
+      "x86_64-linux" = "sha256-lB+KkyW8h0j4Xpi//+IVxJvdSu2XFRS2QOwGHfrRG58=";
+      "aarch64-linux" = "sha256-gGQ1WrTurM9uE3RmzabCAHiTLTEgUVO3hgvH5ft9IXM=";
     }
     .${system};
 
-  jdk = jetbrains.jdk;
+  jdk = jetbrains.jdk-no-jcef;
 in
 stdenv.mkDerivation rec {
   pname = "kotlin-lsp";
-  version = "263.6379.0";
+  version = "271.2085.0";
   __structuredAttrs = true;
   strictDeps = true;
 
@@ -58,6 +58,7 @@ stdenv.mkDerivation rec {
     ln -s ${jdk.home} $out/lib/kotlin-lsp/jbr
 
     ln -s $out/lib/kotlin-lsp/bin/intellij-server $out/bin/
+    ln -s $out/lib/kotlin-lsp/bin/intellij-server $out/bin/kotlin-lsp
 
     runHook postInstall
   '';
