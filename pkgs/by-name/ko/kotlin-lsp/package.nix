@@ -17,8 +17,8 @@ let
 
   hash =
     {
-      "x86_64-linux" = "sha256-MQZ2Q70IYbVpKVg8D7yjK/jpboMuNjKGslxFOw+6b9I=";
-      "aarch64-linux" = "sha256-cNlzWB9N1TZ2H7Crdro/t8TAOO3/S3qhEKOquzi3p/M=";
+      "x86_64-linux" = "sha256-Ld04XYQh62ahCzpAzZzwhFtI0apmhZIhQMVRm6ak+eQ=";
+      "aarch64-linux" = "sha256-gxv8v1/zSQO9EPD7S1YA/2igI809uq/tah8AVdCKNds=";
     }
     .${system};
 
@@ -26,7 +26,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "kotlin-lsp";
-  version = "263.6379.0";
+  version = "263.7084.0";
   __structuredAttrs = true;
   strictDeps = true;
 
