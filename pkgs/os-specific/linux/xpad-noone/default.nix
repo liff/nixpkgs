@@ -22,7 +22,9 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
-  makeFlags = kernelModuleMakeFlags;
+  makeFlags = kernelModuleMakeFlags ++ [
+    "INSTALL_MOD_PATH=${placeholder "out"}"
+  ];
 
   patches = [
     # https://github.com/medusalix/xpad-noone/pull/9
@@ -37,13 +39,12 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace Makefile --replace-fail "/lib/modules/\$(shell uname -r)/build" "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
   '';
 
-  installPhase = ''
-    runHook preInstall
-
-    install *.ko -Dm444 -t $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/xpad-noone
-
-    runHook postInstall
-  '';
+  installTargets = [ "modules_install" ];
+  installFlags = [
+    "-C"
+    "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+    "M=$(PWD)"
+  ];
 
   meta = {
     homepage = "https://github.com/medusalix/xpad-noone";
