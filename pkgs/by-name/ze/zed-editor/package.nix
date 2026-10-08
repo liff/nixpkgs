@@ -2,6 +2,7 @@
   lib,
   rustPlatform,
   fetchFromGitHub,
+  fetchpatch,
   cmake,
   pkg-config,
   protobuf,
@@ -114,6 +115,13 @@ rustPlatform.buildRustPackage (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-DHqtRCDp6DqdV7J5SIx4poSZixwLXl/DMjM4omQXea4=";
   };
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/zed-industries/zed/commit/70b25184087d7c37e3919e14ce3d24fafb8401b8.patch";
+      hash = "sha256-//dJYNi5W1lzer+kNptYIJhacCjk2flYvhRTfwh4pPY=";
+    })
+  ];
 
   postPatch = ''
     # Disable upstream's rustflags overrides to avoid linker issues
