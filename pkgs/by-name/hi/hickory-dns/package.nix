@@ -1,8 +1,10 @@
 {
   cacert,
   fetchFromGitHub,
+  pkg-config,
   sqlite,
   openssl,
+  aws-lc,
   lib,
   nix-update-script,
   nixosTests,
@@ -34,7 +36,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "tls-ring"
   ];
 
-  buildInputs = [ sqlite ];
+  nativeBuildInputs = [
+    pkg-config
+  ];
+  
+  buildInputs = [
+    sqlite
+    aws-lc
+  ];
 
   # skip tests that need network or public resolvers
   checkFlags = [
