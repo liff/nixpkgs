@@ -149,6 +149,7 @@ stdenv.mkDerivation (finalAttrs: {
       "aarch64-linux"
       "aarch64-darwin"
     ];
+    mainProgram = "reaper";
     maintainers = with lib.maintainers; [
       ilian
       viraptor
