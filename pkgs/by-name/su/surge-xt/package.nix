@@ -143,6 +143,7 @@ stdenv.mkDerivation (finalAttrs: {
       "aarch64-linux"
       "x86_64-linux"
     ];
+    mainProgram = "Surge XT";
     maintainers = with lib.maintainers; [
       magnetophon
       mrtnvgr
