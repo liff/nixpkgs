@@ -3,7 +3,7 @@
   stdenv,
   fetchFromGitHub,
   buildNpmPackage,
-  electron_43,
+  electron_45,
   autoPatchelfHook,
   makeWrapper,
   testers,
@@ -12,21 +12,21 @@
 }:
 
 let
-  electron = electron_43;
+  electron = electron_45;
 in
 
-buildNpmPackage rec {
+buildNpmPackage (finalAttrs: {
   pname = "mattermost-desktop";
-  version = "6.3.2";
+  version = "6.4.0";
 
   src = fetchFromGitHub {
     owner = "mattermost";
     repo = "desktop";
-    tag = "v${version}";
-    hash = "sha256-mrV0rQWgJNGEBw0FTFcfMrgh96FHo1WnLB8l3UGIoH8=";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-sBo12iqUfzv6CT7ra56pFoHksjDWQG/+Aq8Q5osUNrg=";
   };
 
-  npmDepsHash = "sha256-2Uv0VMMkTVZRMyTvbk0Y6XpeHYddx0Ypt6rgaiwbLL4=";
+  npmDepsHash = "sha256-IEiW7BmigDzgCWPvh3p8u1isn5DwLcnvamrZ9+6cU5U=";
   npmBuildScript = "build-prod";
   makeCacheWritable = true;
 
@@ -43,6 +43,11 @@ buildNpmPackage rec {
   ];
 
   env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
+
+  prePatch = ''
+    substituteInPlace package.json \
+      --replace-fail '&& node node_modules/electron/install.js' ""
+  '';
 
   postPatch = ''
     substituteInPlace webpack.config.base.js \
@@ -75,20 +80,20 @@ buildNpmPackage rec {
 
     readonly dist=release/*-unpacked
 
-    cp -a $dist/resources $out/share/${pname}
+    cp -a $dist/resources $out/share/${finalAttrs.pname}
 
     patchShebangs $dist/create_desktop_file.sh
     $dist/create_desktop_file.sh
-    mv Mattermost.desktop $out/share/applications/
-    substituteInPlace $out/share/applications/Mattermost.desktop \
-      --replace-fail /build/source/$dist/app_icon.png ${pname} \
-      --replace-fail /build/source/$dist/ $out/bin/
+    mv com.Mattermost.Desktop.desktop $out/share/applications/
+    substituteInPlace $out/share/applications/com.Mattermost.Desktop.desktop \
+      --replace-fail /build/source/$dist/app_icon.png com.Mattermost.Desktop \
+      --replace-fail /build/source/$dist/ ""
 
-    cp src/assets/linux/app_icon.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+    cp src/assets/linux/app_icon.png $out/share/icons/hicolor/512x512/apps/com.Mattermost.Desktop.png
 
-    makeWrapper '${lib.getExe electron}' $out/bin/${pname} \
+    makeWrapper '${lib.getExe electron}' $out/bin/com.Mattermost.Desktop \
       --set-default ELECTRON_IS_DEV 0 \
-      --add-flags $out/share/${pname}/app.asar \
+      --add-flags $out/share/${finalAttrs.pname}/app.asar \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
 
     runHook postInstall
@@ -98,7 +103,7 @@ buildNpmPackage rec {
     tests.version = testers.testVersion {
       package = mattermost-desktop;
       # Invoking with `--version` insists on being able to write to a log file.
-      command = "env HOME=/tmp ${meta.mainProgram} --version";
+      command = "env HOME=/tmp ${finalAttrs.meta.mainProgram} --version";
     };
     updateScript = nix-update-script {
       extraArgs = [ "--version-regex=^v(\\d+\\.\\d+\\.\\d+)$" ];
@@ -107,9 +112,9 @@ buildNpmPackage rec {
 
   meta = {
     description = "Mattermost Desktop client";
-    mainProgram = "mattermost-desktop";
+    mainProgram = "com.Mattermost.Desktop";
     homepage = "https://about.mattermost.com/";
-    changelog = "https://github.com/mattermost/desktop/releases/tag/${src.tag}";
+    changelog = "https://github.com/mattermost/desktop/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.asl20;
     platforms = electron.meta.platforms;
     # https://github.com/NixOS/nixpkgs/issues/430763
@@ -124,4 +129,4 @@ buildNpmPackage rec {
       yayayayaka
     ];
   };
-}
+})
