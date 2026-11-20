@@ -2,6 +2,7 @@
   lib,
   stdenv,
   requireFile,
+  curl,
   alsa-lib,
   fontconfig,
   freetype,
@@ -13,12 +14,12 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "pianoteq";
-  version = "9.2.5";
+  version = "9.3.1";
 
   src = requireFile {
     name = "pianoteq_setup_v${lib.strings.replaceString "." "" finalAttrs.version}.tar.xz";
     url = "https://www.modartt.com/user_area?tab=downloads";
-    hash = "sha256-Dqacp6IC3MOlp9hHaIuxm/ZJfhVsBPT1efroKnPjZiM=";
+    hash = "sha256-3v7XZJKAej7R29JWhbQhCEeKMMn3N3e122nlry2ivFk=";
   };
 
   strictDeps = true;
@@ -31,6 +32,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [
     (lib.getLib stdenv.cc.cc)
+    curl
     alsa-lib
     fontconfig
     freetype
@@ -74,7 +76,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://www.modartt.com/pianoteq";
     description = "Software synthesizer that features real-time MIDI-control of digital physically modeled pianos and related instruments";
     license = lib.licenses.unfree;
-    mainProgram = "Pianoteq 9";
+    mainProgram = "Pianoteq\\ 9";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
